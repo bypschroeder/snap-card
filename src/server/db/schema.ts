@@ -98,3 +98,22 @@ export const verificationTokens = createTable(
     compoundKey: primaryKey({ columns: [vt.email, vt.token] }),
   })
 );
+
+export const images = createTable(
+  "image",
+  {
+    id: serial("id").primaryKey(),
+    name: varchar("name", { length: 256 }).notNull(),
+    url: varchar("url", { length: 1024 }).notNull(),
+
+    userId: varchar("userId", { length: 256 }).notNull(),
+
+    createdAt: timestamp("created_at")
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp("updated_at"),
+  },
+  (example) => ({
+    nameIndex: index("name_idx").on(example.name),
+  }),
+);
