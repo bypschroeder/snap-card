@@ -1,14 +1,15 @@
-import { db } from "~/server/db"
+import { getMyImages } from "~/server/queries"
+import Image from "next/image"
 
 async function Images() {
-  const images = await db.query.images.findMany({
-    orderBy: (model, {desc}) => desc(model.id)
-  })
+  const images = await getMyImages()
+
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-4 justify-center">
       {images.map((image) => (
-        <div key={image.id} className="w-48">
-          <img src={image.url} alt="image" />
+        <div key={image.id} className="w-48 h-48">
+          <Image src={image.url} style={{objectFit: "contain"}} width={192} height={192} alt={image.name} />
+          <p>{image.name}</p>
         </div>
       ))}
     </div>

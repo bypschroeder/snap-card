@@ -1,16 +1,12 @@
-"use client"
-
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { ModeToggle } from "./mode-toggle";
 import { Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTrigger } from "./ui/sheet";
 import { Profile } from "./profile";
-import { useRouter } from "next/navigation";
-import { UploadButton } from "~/utils/uploadthing";
+import { SimpleUploadButton } from "./simple-upload-button";
 
 export const Navbar = () => {
-  const router = useRouter()
   const user = false
   return (
     <nav className="fixed z-50 flex h-24 w-full items-center justify-between bg-background/60 backdrop-blur-lg px-4 py-10 md:px-8 lg:px-12 xl:px-16 2xl:px-24">
@@ -28,10 +24,7 @@ export const Navbar = () => {
           <Button variant="link" className="font-semibold text-md">Home</Button>
         </Link>
       </div>
-
-      <UploadButton endpoint="imageUploader" onClientUploadComplete={() => {
-        router.refresh()
-      }} />
+      <SimpleUploadButton />
       <div className="items-center hidden gap-2 md:flex">
         {user ? <Profile /> : <>
           <Button variant="ghost" size="lg">Login</Button>
