@@ -99,6 +99,16 @@ export const verificationTokens = createTable(
   })
 );
 
+export const passwordResetTokens = createTable(
+  "passwordResetToken",
+  {
+    id: varchar("id").$defaultFn(() => randomUUID()),
+    email: varchar("email", { length: 255 }).notNull(),
+    token: varchar("token", { length: 255 }).notNull().unique(),
+    expires: timestamp("expires", { mode: "date" }).notNull(),
+  }
+)
+
 export const images = createTable(
   "image",
   {

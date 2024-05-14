@@ -10,19 +10,19 @@ import { users, verificationTokens } from "~/server/db/schema";
 export const newVerification = async (token: string) => {
   const existingToken = await getVerificationTokenByToken(token);
   if (existingToken && existingToken.length > 0) {
-    const [token] = existingToken;
+    const [currentToken] = existingToken;
 
-    if (!token) {
+    if (!currentToken) {
       return { error: "Token does not exist" };
     }
 
-    const hasExpired = new Date(token.expires) < new Date();
+    const hasExpired = new Date(currentToken.expires) < new Date();
 
     if (hasExpired) {
       return { error: "Token has expired" };
     }
 
-    const existingUser = await getUserByEmail(token.email);
+    const existingUser = await getUserByEmail(currentToken.email);
 
     if (existingUser && existingUser.length > 0) {
       const [user] = existingUser;
@@ -35,15 +35,15 @@ export const newVerification = async (token: string) => {
         .update(users)
         .set({
           emailVerified: new Date(),
-          email: token.email,
+          email: currentToken.email,
         })
         .where(eq(users.id, user.id));
     }
 
     await db
       .delete(verificationTokens)
-      .where(eq(verificationTokens.id, token.id));
+      .where(eq(verificationTokens.id, currentToken.id));
   }
 
-  return { success: "Email verified" }
+  return { success: "Email verified" };
 };
