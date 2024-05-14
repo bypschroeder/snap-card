@@ -1,12 +1,12 @@
-import { type Config } from "drizzle-kit";
-
 import { env } from "~/env";
+import { defineConfig } from "drizzle-kit";
 
-export default {
+export default defineConfig({
+  dialect: "postgresql",
   schema: "./src/server/db/schema.ts",
   driver: "pg",
   dbCredentials: {
-    connectionString: env.POSTGRES_URL,
+    url: env.POSTGRES_URL,
   },
   tablesFilter: ["snap-card_*"],
-} satisfies Config;
+});

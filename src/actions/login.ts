@@ -8,6 +8,7 @@ import { signIn } from "~/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "~/routes";
 import { generateVerificationToken } from "~/lib/token";
 import { getUserByEmail } from "~/data/user";
+import { sendVerificationEmail } from "~/lib/mail";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   const validatedFields = LoginSchema.safeParse(values);
@@ -21,8 +22,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   const existingUserArray = await getUserByEmail(email);
   let existingUser;
   if (existingUserArray) {
-    existingUser =
-      existingUserArray.length > 0 ? existingUserArray[0] : null;
+    existingUser = existingUserArray.length > 0 ? existingUserArray[0] : null;
   }
 
   if (!existingUser?.email || !existingUser?.password) {
@@ -30,8 +30,16 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   }
 
   if (!existingUser.emailVerified) {
-    const verificationToken = generateVerificationToken(existingUser.email);
-    return { success: "Confirmation email sent!" };
+    const [verificationToken] = await generateVerificationToken(email);
+
+    if (verificationToken) {
+      await sendVerificationEmail(
+        verificationToken.email,
+        verificationToken.token,
+      );
+    }
+
+    return { success: "Confirmation email resent!" };
   }
 
   try {

@@ -21,8 +21,8 @@ export const generateVerificationToken = async (email: string) => {
   const verificationToken = await db.insert(verificationTokens).values({
     email,
     token,
-    expires
-  })
+    expires,
+  }).returning();
 
-  return verificationToken
+  return verificationToken;
 };
