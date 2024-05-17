@@ -60,7 +60,7 @@ UPLOADTHING_APP_ID=""
   Javascript-Bibliothek für die Integration für Authentifizierungsmechanismen.
 - **Resend:**
   E-Mail-Dienst zum Versenden von Verifizierungs-/Password-Reset-Mails.
-- \***\*Uploadthing:**
+- **Uploadthing:**
   Dateiupload-Dienst, der die Integration von Bilder-Uploads in Webanwendungen vereinfacht.
 - **Vercel (Deployment):**
   Cloud-Plattform, für das Hosting und Deployment von modernenen Webanwendungen.
