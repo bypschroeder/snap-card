@@ -2,6 +2,8 @@
 
 **Idee:** Eine Web-App, die es Designern und Fotografen ermöglicht, individuelle digitale Visitenkarten zu erstellen und zu teilen. Diese Visitenkarten sind einfach über eine URL zugänglich und bieten eine Möglichkeit, Portfolios und Werke zu präsentieren.
 
+Die Anwendung ist auf der Cloud-Plattform Vercel gehostet und kann unter [snap-card-seven.vercel.app](https://snap-card-seven.vercel.app/) aufgerufen werden.
+
 ## Hinweis
 
 Um die Web-Anwendung zum Laufen zu bringen benötigt man einige **Environment Variablen**. Diese sind erforderlich, um eine Verbindung zur Datenbank herzustellen, eine sichere Interaktion mit NextAuth zu ermöglichen, Zugriff auf den Resend-E-Mail-Dienst zu haben und auf den Dateiupload-Dienst Uploadthing zuzugreifen. Diese **Environment-Datei ist in dem Projekt ausgefüllt vorhanden**, wird aber sonst nicht veröffentlicht.
@@ -48,23 +50,25 @@ UPLOADTHING_APP_ID=""
 
 ## Tech-Architektur
 
-- **NextJS:**
+- [NextJS](https://nextjs.org/):
   React-Framework, welches Server-Side-Rendering ermöglicht. In dieser Web-App wird trotzdem darauf geachtet, dass es eine Single-Page-Application ist.
-- **Tailwind CSS:**
+- [Tailwind CSS](https://tailwindcss.com/):
   Framwork für CSS, welches die Implementierung von dem Design vereinfacht.
-- **TypeScript:**
+- [Shadcn-ui](https://ui.shadcn.com/):
+  React-Komponenten-Bibliothek, die die Implementierung vereinfacht.
+- [TypeScript](https://www.typescriptlang.org/):
   Basierend auf JavaScript mit zusätzlichen Funktionen wie Typisierung.
-- **Drizzle ORM:**
+- [Drizzle ORM](https://orm.drizzle.team/):
   Javascript-Bibliothek, welche die Interaktionen mit der Datenbank abstrahiert und vereinfacht.
-- **Postgresql (Vercel Storage):**
+- [PostgreSQL](https://www.postgresql.org/) \ [Vercel Storage](https://vercel.com/):
   Datenbankverwaltungssystem. Vercel als Cloud-Plattform, die zur Online-Speicherung und Verwaltung der Datenbank dient.
-- **NextAuth.js / Auth.js v5:**
+- [NextAuth](https://next-auth.js.org/) \ [Auth.js v5](https://authjs.com/):
   Javascript-Bibliothek für die Integration für Authentifizierungsmechanismen.
-- **Resend:**
+- [Resend](https://resend.io/):
   E-Mail-Dienst zum Versenden von Verifizierungs-/Password-Reset-Mails.
-- **Uploadthing:**
+- [Uploadthing](https://uploadthing.com/):
   Dateiupload-Dienst, der die Integration von Bilder-Uploads in Webanwendungen vereinfacht.
-- **Vercel (Deployment):**
+- [Vercel](https://vercel.com/):
   Cloud-Plattform, für das Hosting und Deployment von modernenen Webanwendungen.
 
 ## TODOs
