@@ -46,23 +46,23 @@ UPLOADTHING_APP_ID=""
 
 ## Tech-Architektur
 
-- NextJS
+- **NextJS:**
   React-Framework, welches Server-Side-Rendering ermöglicht. In dieser Web-App wird trotzdem darauf geachtet, dass es eine Single-Page-Application ist.
-- Tailwind CSS
+- **Tailwind CSS:**
   Framwork für CSS, welches die Implementierung von dem Design vereinfacht.
-- TypeScript
+- **TypeScript:**
   Basierend auf JavaScript mit zusätzlichen Funktionen wie Typisierung.
-- Drizzle ORM
+- **Drizzle ORM:**
   Javascript-Bibliothek, welche die Interaktionen mit der Datenbank abstrahiert und vereinfacht.
-- Postgresql (Vercel Storage)
+- **Postgresql (Vercel Storage):**
   Datenbankverwaltungssystem. Vercel als Cloud-Plattform, die zur Online-Speicherung und Verwaltung der Datenbank dient.
-- NextAuth.js / Auth.js v5
+- **NextAuth.js / Auth.js v5:**
   Javascript-Bibliothek für die Integration für Authentifizierungsmechanismen.
-- Resend
+- **Resend:**
   E-Mail-Dienst zum Versenden von Verifizierungs-/Password-Reset-Mails.
-- Uploadthing
+- \***\*Uploadthing:**
   Dateiupload-Dienst, der die Integration von Bilder-Uploads in Webanwendungen vereinfacht.
-- Vercel (Deployment)
+- **Vercel (Deployment):**
   Cloud-Plattform, für das Hosting und Deployment von modernenen Webanwendungen.
 
 ## TODOs
