@@ -62,9 +62,9 @@ UPLOADTHING_APP_ID=""
   Javascript-Bibliothek, welche die Interaktionen mit der Datenbank abstrahiert und vereinfacht.
 - [PostgreSQL](https://www.postgresql.org/) \ [Vercel Storage](https://vercel.com/):
   Datenbankverwaltungssystem. Vercel als Cloud-Plattform, die zur Online-Speicherung und Verwaltung der Datenbank dient.
-- [NextAuth](https://next-auth.js.org/) \ [Auth.js v5](https://authjs.com/):
+- [NextAuth](https://next-auth.js.org/) \ [Auth.js v5](https://authjs.dev/):
   Javascript-Bibliothek für die Integration für Authentifizierungsmechanismen.
-- [Resend](https://resend.io/):
+- [Resend](https://resend.com):
   E-Mail-Dienst zum Versenden von Verifizierungs-/Password-Reset-Mails.
 - [Uploadthing](https://uploadthing.com/):
   Dateiupload-Dienst, der die Integration von Bilder-Uploads in Webanwendungen vereinfacht.
