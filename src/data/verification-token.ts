@@ -1,13 +1,10 @@
 import { db } from "~/server/db";
-import { verificationTokens } from "~/server/db/schema";
-import { eq } from "drizzle-orm";
 
 export const getVerificationTokenByToken = async (token: string) => {
   try {
-    const verificationToken = await db
-      .select()
-      .from(verificationTokens)
-      .where(eq(verificationTokens.token, token));
+    const verificationToken = await db.query.verificationTokens.findFirst({
+      where: (model, { eq }) => eq(model.token, token),
+    });
 
     return verificationToken;
   } catch {
@@ -17,10 +14,9 @@ export const getVerificationTokenByToken = async (token: string) => {
 
 export const getVerificationTokenByEmail = async (email: string) => {
   try {
-    const verificationToken = await db
-      .select()
-      .from(verificationTokens)
-      .where(eq(verificationTokens.email, email));
+    const verificationToken = await db.query.verificationTokens.findFirst({
+      where: (model, { eq }) => eq(model.email, email),
+    });
 
     return verificationToken;
   } catch {

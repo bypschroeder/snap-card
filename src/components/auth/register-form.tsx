@@ -40,8 +40,8 @@ export const RegisterForm = () => {
     setError("");
     setSuccess("");
 
-    startTransition(() => {
-      register(values).then((data) => {
+    startTransition(async () => {
+      await register(values).then((data) => {
         setError(data?.error);
         setSuccess(data?.success);
       });

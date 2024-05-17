@@ -1,6 +1,6 @@
 "use server";
 
-import * as z from "zod";
+import type * as z from "zod";
 import bcrypt from "bcryptjs";
 
 import { getPasswordResetTokenByToken } from "~/data/password-reset-token";
@@ -41,21 +41,20 @@ export const newPassword = async (
 
   const existingUser = await getUserByEmail(existingToken.email);
 
-  if (existingUser && existingUser.length > 0) {
-    const [user] = existingUser;
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    await db
-      .update(users)
-      .set({ password: hashedPassword })
-      .where(eq(users.id, user!.id));
-
-    await db
-      .delete(passwordResetTokens)
-      .where(eq(passwordResetTokens.id, existingToken.id));
-
-    return { success: "Password updated!"}
-  } else {
-    return { error: "Email does not exist" };
+  if (!existingUser) {
+    return { error: "Email does not exist!" };
   }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  await db
+    .update(users)
+    .set({ password: hashedPassword })
+    .where(eq(users.id, existingUser.id));
+
+  await db
+    .delete(passwordResetTokens)
+    .where(eq(passwordResetTokens.id, existingToken.id));
+
+  return { success: "Password updated!" };
 };

@@ -5,10 +5,10 @@ export const authRoutes = [
   "/auth/register",
   "/auth/error",
   "/auth/reset",
-  "/auth/new-password"
+  "/auth/new-password",
 ];
 
 export const apiAuthPrefix = "/api/auth";
 export const apiUploadPrefix = "/api/uploadthing";
 
-export const DEFAULT_LOGIN_REDIRECT = "/settings";
+export const DEFAULT_LOGIN_REDIRECT = "/dashboard";

@@ -9,9 +9,7 @@ export const generateVerificationToken = async (email: string) => {
   const token = uuidv4();
   const expires = new Date(new Date().getTime() + 3600 * 1000);
 
-  const existingTokenArray = await getVerificationTokenByEmail(email);
-  const existingToken =
-    existingTokenArray!.length > 0 ? existingTokenArray![0] : null;
+  const existingToken = await getVerificationTokenByEmail(email);
 
   if (existingToken) {
     await db
@@ -43,11 +41,14 @@ export const generatePasswortResetToken = async (email: string) => {
       .where(eq(passwordResetTokens.id, existingToken?.id));
   }
 
-  const passwordResetToken = await db.insert(passwordResetTokens).values({
-    email,
-    token,
-    expires
-  }).returning()
+  const passwordResetToken = await db
+    .insert(passwordResetTokens)
+    .values({
+      email,
+      token,
+      expires,
+    })
+    .returning();
 
-  return passwordResetToken
+  return passwordResetToken;
 };

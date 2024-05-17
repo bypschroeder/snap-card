@@ -20,11 +20,9 @@ export const {
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider !== "credentials") return true;
-      const existingUsers = await getUserById(user.id!);
+      const existingUser = await getUserById(user.id!);
 
-      if (!existingUsers?.length) return false;
-
-      const existingUser = existingUsers[0];
+      if (!existingUser) return false;
 
       if (!existingUser?.emailVerified) return false;
 
@@ -40,9 +38,7 @@ export const {
     async jwt({ token }) {
       if (!token.sub) return token;
 
-      const existingUserArray = await getUserById(token.sub);
-      const existingUser =
-        existingUserArray!.length > 0 ? existingUserArray![0] : null;
+      const existingUser = await getUserById(token.sub);
 
       if (!existingUser) return token;
 

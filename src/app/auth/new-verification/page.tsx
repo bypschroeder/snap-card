@@ -4,7 +4,7 @@ import { NewVerificationForm } from "~/components/new-verification-form";
 const NewVerificationPage = () => {
   return (
     <Suspense>
-      <NewVerificationForm />;
+      <NewVerificationForm />
     </Suspense>
   );
 };

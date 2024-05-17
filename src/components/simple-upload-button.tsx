@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useUploadThing } from "~/utils/uploadthing";
 import { toast } from "sonner";
+import { Check } from "lucide-react";
 
 // inferred input off useUploadThing
 type Input = Parameters<typeof useUploadThing>;
@@ -90,15 +91,21 @@ export const SimpleUploadButton = () => {
     },
     onClientUploadComplete(res) {
       toast.dismiss("upload-begin");
-      toast("Upload complete!");
+      toast(
+        <div className="flex items-center gap-2">
+          <Check />
+          <span className="text-lg">Upload complete!</span>
+        </div>,
+      );
       router.refresh();
     },
   });
 
   return (
-    <div>
-      <label htmlFor="upload-button" className="cursor-pointer">
+    <div className="flex gap-2">
+      <label htmlFor="upload-button" className="flex cursor-pointer gap-2">
         <UploadSVG />
+        <span>Upload Image</span>
       </label>
       <input
         id="upload-button"

@@ -9,6 +9,9 @@ import {
   text,
   timestamp,
   varchar,
+  boolean,
+  json,
+  pgEnum,
 } from "drizzle-orm/pg-core";
 import { type AdapterAccount } from "next-auth/adapters";
 
@@ -21,12 +24,14 @@ import { type AdapterAccount } from "next-auth/adapters";
 export const createTable = pgTableCreator((name) => `snap-card_${name}`);
 
 export const users = createTable("user", {
-  id: varchar("id", { length: 255 }).primaryKey().$defaultFn(() => randomUUID()),
+  id: varchar("id", { length: 255 })
+    .primaryKey()
+    .$defaultFn(() => randomUUID()),
   name: varchar("name", { length: 255 }),
   email: varchar("email", { length: 255 }).notNull().unique(),
   emailVerified: timestamp("emailVerified", {
     mode: "date",
-  }),
+  }).default(sql`CURRENT_TIMESTAMP`),
   image: varchar("image", { length: 255 }),
   password: varchar("password", { length: 255 }).notNull(),
 });
@@ -59,7 +64,7 @@ export const accounts = createTable(
       columns: [account.provider, account.providerAccountId],
     }),
     userIdIdx: index("account_userId_idx").on(account.userId),
-  })
+  }),
 );
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
@@ -79,7 +84,7 @@ export const sessions = createTable(
   },
   (session) => ({
     userIdIdx: index("session_userId_idx").on(session.userId),
-  })
+  }),
 );
 
 export const sessionsRelations = relations(sessions, ({ one }) => ({
@@ -96,18 +101,15 @@ export const verificationTokens = createTable(
   },
   (vt) => ({
     compoundKey: primaryKey({ columns: [vt.email, vt.token] }),
-  })
+  }),
 );
 
-export const passwordResetTokens = createTable(
-  "passwordResetToken",
-  {
-    id: varchar("id").$defaultFn(() => randomUUID()),
-    email: varchar("email", { length: 255 }).notNull(),
-    token: varchar("token", { length: 255 }).notNull().unique(),
-    expires: timestamp("expires", { mode: "date" }).notNull(),
-  }
-)
+export const passwordResetTokens = createTable("passwordResetToken", {
+  id: varchar("id").$defaultFn(() => randomUUID()),
+  email: varchar("email", { length: 255 }).notNull(),
+  token: varchar("token", { length: 255 }).notNull().unique(),
+  expires: timestamp("expires", { mode: "date" }).notNull(),
+});
 
 export const images = createTable(
   "image",
@@ -126,4 +128,42 @@ export const images = createTable(
   (example) => ({
     nameIndex: index("name_idx").on(example.name),
   }),
+);
+
+export const visibilityEnum = pgEnum("visibility", ["private", "public"]);
+
+export const cards = createTable("card", {
+  id: serial("id").primaryKey(),
+  userId: varchar("userId")
+    .references(() => users.id, { onDelete: "cascade" })
+    .notNull(),
+  showEmail: boolean("showEmail").default(true),
+  showPhoneNumber: boolean("showPhoneNumber").default(true),
+  websiteUrl: varchar("websiteUrl", { length: 256 }),
+  profession: varchar("profession", { length: 256 }),
+  socialMediaLinks: json("socialMediaLinks").$type<string[]>(),
+  bio: varchar("bio", { length: 1024 }),
+  skills: varchar("skills", { length: 256 }).array(),
+  visibility: visibilityEnum("visibility"),
+  createdAt: timestamp("created_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: timestamp("updated_at"),
+});
+
+export const card_images = createTable(
+  "card_image",
+  {
+    cardId: integer("cardId")
+      .references(() => cards.id, { onDelete: "cascade" })
+      .notNull(),
+    imageId: integer("imageId")
+      .references(() => images.id, { onDelete: "cascade" })
+      .notNull(),
+  },
+  (table) => {
+    return {
+      pk: primaryKey({ columns: [table.cardId, table.imageId] }),
+    };
+  },
 );

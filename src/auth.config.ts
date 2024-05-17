@@ -18,8 +18,7 @@ export default {
         if (validatedFields.success) {
           const { email, password } = validatedFields.data;
 
-          const userArray = await getUserByEmail(email);
-          const user = userArray!.length > 0 ? userArray![0] : null;
+          const user = await getUserByEmail(email);
 
           if (!user?.password) return null;
 
