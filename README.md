@@ -12,6 +12,10 @@ Das Versenden von E-Mails zur Verifizierung und Passwortrücksetzung funktionier
 
 Die Datenbank kann mit dem Befehl `npm run db:studio` geöffnet werden. Hier können die Tabellen auf der URL `local.drizzle.studio` eingesehen und bearbeitet werden.
 
+Test-Nutzer:
+E-Mail: <test@test.de>
+Passwort: 123456
+
 ## Installation
 
 1. Installieren der Packages
