@@ -8,6 +8,8 @@ Um die Web-Anwendung zum Laufen zu bringen benötigt man einige **Environment Va
 
 Das Versenden von E-Mails zur Verifizierung und Passwortrücksetzung funktioniert einwandfrei. Für die Entwicklungsumgebung ist jedoch nur das Senden von Resend-Mails an meine E-Mail-Adresse möglich. Daher wird jeder neu registrierte Benutzer automatisch verifiziert. Nach der Registrierung ist es also möglich, sich einzuloggen, ohne eine separate Verifizierung durchführen zu müssen.
 
+Die Datenbank kann mit dem Befehl `npm run db:studio` geöffnet werden. Hier können die Tabellen auf der URL `local.drizzle.studio` eingesehen und bearbeitet werden.
+
 ## Installation
 
 1. Installieren der Packages
