@@ -18,6 +18,8 @@ import UserInitializer from "~/components/user-initializer";
 import getUser from "~/lib/getUser";
 import { User } from "~/types/user";
 
+export const dynamic = "force-dynamic";
+
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
