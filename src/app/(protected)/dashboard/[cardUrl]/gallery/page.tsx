@@ -131,10 +131,9 @@ const CardGalleryPage = ({ params }: { params: { cardUrl: string } }) => {
                       <Image
                         src={imageUrl}
                         alt={`Image ${index}`}
-                        layout="responsive"
-                        width={32}
-                        height={32}
-                        className="object-contain"
+                        width={128}
+                        height={128}
+                        className="h-full w-full object-cover "
                       />
                     </div>
                   </div>

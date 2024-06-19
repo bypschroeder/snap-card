@@ -201,7 +201,7 @@ export const ProfileForm = () => {
               )}
             />
           </div>
-          <div className="flex w-full gap-4">
+          <div className="flex w-full items-center gap-4">
             <FormField
               control={userForm.control}
               name="userName"
