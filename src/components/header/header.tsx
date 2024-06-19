@@ -5,7 +5,6 @@ import { MobileNav } from "./mobile-nav";
 import { auth } from "~/auth";
 
 export const Header = async () => {
-  // TODO: function go get current user session
   const session = await auth();
   const user = session?.user;
 

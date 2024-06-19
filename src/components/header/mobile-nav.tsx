@@ -8,7 +8,6 @@ import {
 } from "../ui/sheet";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { ModeToggle } from "../mode-toggle";
 import { logout } from "~/actions/logout";
 
 export const MobileNav = () => {

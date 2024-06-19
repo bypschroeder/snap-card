@@ -5,7 +5,7 @@ import type * as z from "zod";
 import bcrypt from "bcryptjs";
 import { db } from "~/server/db";
 import { users } from "~/server/db/schema";
-import { getUserByEmail } from "~/data/user";
+import { getUserByEmail, getUserByUserName } from "~/data/user";
 import { generateVerificationToken } from "~/lib/token";
 import { sendVerificationEmail } from "~/lib/mail";
 
@@ -16,23 +16,31 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     return { error: "Invalid fields!" };
   }
 
-  const { email, password, name } = validatedFields.data;
+  const { userName, firstName, lastName, email, password } =
+    validatedFields.data;
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const existingUser = await getUserByEmail(email);
+  const existingUserWithSameEmail = await getUserByEmail(email);
 
-  if (existingUser) {
+  if (existingUserWithSameEmail) {
     return { error: "Email already exists!" };
   }
 
+  const existingUserWithSameUserName = await getUserByUserName(userName);
+
+  if (existingUserWithSameUserName) {
+    return { error: "Username already exists!" };
+  }
+
   await db.insert(users).values({
-    name,
+    userName,
+    firstName,
+    lastName,
     email,
     password: hashedPassword,
   });
 
   const [verificationToken] = await generateVerificationToken(email);
-  console.log(verificationToken);
 
   if (verificationToken) {
     await sendVerificationEmail(

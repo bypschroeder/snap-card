@@ -27,12 +27,14 @@ export const users = createTable("user", {
   id: varchar("id", { length: 255 })
     .primaryKey()
     .$defaultFn(() => randomUUID()),
-  name: varchar("name", { length: 255 }),
+  userName: varchar("userName", { length: 255 }).unique(),
+  firstName: varchar("firstName", { length: 255 }),
+  lastName: varchar("lastName", { length: 255 }),
   email: varchar("email", { length: 255 }).notNull().unique(),
   emailVerified: timestamp("emailVerified", {
     mode: "date",
   }).default(sql`CURRENT_TIMESTAMP`),
-  image: varchar("image", { length: 255 }),
+  image: integer("image").references(() => images.id, { onDelete: "set null" }),
   password: varchar("password", { length: 255 }).notNull(),
 });
 
@@ -117,9 +119,7 @@ export const images = createTable(
     id: serial("id").primaryKey(),
     name: varchar("name", { length: 256 }).notNull(),
     url: varchar("url", { length: 1024 }).notNull(),
-
     userId: varchar("userId", { length: 256 }).notNull(),
-
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
@@ -137,14 +137,21 @@ export const cards = createTable("card", {
   userId: varchar("userId")
     .references(() => users.id, { onDelete: "cascade" })
     .notNull(),
-  showEmail: boolean("showEmail").default(true),
-  showPhoneNumber: boolean("showPhoneNumber").default(true),
-  websiteUrl: varchar("websiteUrl", { length: 256 }),
-  profession: varchar("profession", { length: 256 }),
-  socialMediaLinks: json("socialMediaLinks").$type<string[]>(),
+  cardName: varchar("cardName", { length: 256 }).notNull(),
+  cardUrl: varchar("cardUrl", { length: 1024 }).notNull().unique(),
+  cardVisibility: visibilityEnum("cardVisibility").notNull(),
+  profileImageId: integer("profileImageId").references(() => images.id, {
+    onDelete: "set null",
+  }),
+  firstName: varchar("firstName", { length: 256 }),
+  lastName: varchar("lastName", { length: 256 }),
+  profession: json("profession"),
+  socialMediaLinks: json("socialMediaLinks"),
   bio: varchar("bio", { length: 1024 }),
-  skills: varchar("skills", { length: 256 }).array(),
-  visibility: visibilityEnum("visibility"),
+  skills: json("skills"),
+  email: varchar("email", { length: 256 }),
+  phoneNumber: varchar("phoneNumber", { length: 256 }).notNull(),
+  websiteUrl: varchar("websiteUrl", { length: 256 }),
   createdAt: timestamp("created_at")
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),

@@ -22,6 +22,7 @@ import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 import { login } from "~/actions/login";
 import Link from "next/link";
+import { LoadingButton } from "../loading-button";
 
 export const LoginForm = () => {
   const [error, setError] = useState<string | undefined>("");
@@ -88,10 +89,13 @@ export const LoginForm = () => {
                       type="password"
                     />
                   </FormControl>
-                  <Button size="sm" variant="link" asChild className="px-0 font-normal">
-                    <Link href="/auth/reset">
-                      Forgot password?
-                    </Link>
+                  <Button
+                    size="sm"
+                    variant="link"
+                    asChild
+                    className="px-0 font-normal"
+                  >
+                    <Link href="/auth/reset">Forgot password?</Link>
                   </Button>
                   <FormMessage />
                 </FormItem>
@@ -100,9 +104,9 @@ export const LoginForm = () => {
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />
-          <Button disabled={isPending} type="submit" className="w-full">
+          <LoadingButton loading={isPending} type="submit" className="w-full">
             Login
-          </Button>
+          </LoadingButton>
         </form>
       </Form>
     </CardWrapper>

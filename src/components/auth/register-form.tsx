@@ -21,6 +21,14 @@ import { Button } from "../ui/button";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 import { register } from "~/actions/register";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
+import { Info } from "lucide-react";
+import { LoadingButton } from "../loading-button";
 
 export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>("");
@@ -30,9 +38,11 @@ export const RegisterForm = () => {
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
+      userName: "",
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
-      name: "",
     },
   });
 
@@ -59,22 +69,62 @@ export const RegisterForm = () => {
           <div className="space-y-4">
             <FormField
               control={form.control}
-              name="name"
+              name="userName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <div className="flex items-center gap-2">
+                    <FormLabel>User Name</FormLabel>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger type="button">
+                          <Info className="h-4 w-4" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>
+                            Your User Name is used for the url creation of your
+                            cards
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
                   <FormControl>
                     <Input
                       {...field}
                       disabled={isPending}
-                      placeholder="John Doe"
+                      placeholder="Example"
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
+            <FormField
+              control={form.control}
+              name="firstName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>First Name</FormLabel>
+                  <FormControl>
+                    <Input {...field} disabled={isPending} placeholder="John" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Last Name</FormLabel>
+                  <FormControl>
+                    <Input {...field} disabled={isPending} placeholder="Doe" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="email"
@@ -114,9 +164,9 @@ export const RegisterForm = () => {
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />
-          <Button disabled={isPending} type="submit" className="w-full">
+          <LoadingButton loading={isPending} type="submit" className="w-full">
             Create an account
-          </Button>
+          </LoadingButton>
         </form>
       </Form>
     </CardWrapper>

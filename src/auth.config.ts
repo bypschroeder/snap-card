@@ -1,7 +1,5 @@
 import Credentials from "next-auth/providers/credentials";
-import type { NextAuthConfig } from "next-auth";
 import bcrypt from "bcryptjs";
-
 import { LoginSchema } from "~/schemas";
 import { getUserByEmail } from "~/data/user";
 
@@ -9,10 +7,10 @@ export default {
   providers: [
     Credentials({
       credentials: {
-        username: { label: "Username" },
+        email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
+      async authorize(credentials, request) {
         const validatedFields = LoginSchema.safeParse(credentials);
 
         if (validatedFields.success) {
@@ -24,10 +22,31 @@ export default {
 
           const passwordsMatch = await bcrypt.compare(password, user.password);
 
-          if (passwordsMatch) return user;
+          if (passwordsMatch) {
+            const {
+              id,
+              userName,
+              firstName,
+              lastName,
+              email,
+              emailVerified,
+              image,
+            } = user;
+            return {
+              id,
+              userName: userName ?? null,
+              firstName: firstName ?? null,
+              lastName: lastName ?? null,
+              email,
+              emailVerified: emailVerified ?? null,
+              image: image ? String(image) : null,
+              password: user.password,
+            };
+          }
         }
+
         return null;
       },
     }),
   ],
-} satisfies NextAuthConfig;
+};

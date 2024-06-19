@@ -12,8 +12,11 @@ import { ourFileRouter } from "~/app/api/uploadthing/core";
 import { cn } from "~/lib/utils";
 import { ThemeProvider } from "~/components/theme-provider";
 import { Toaster } from "~/components/ui/sonner";
-import { Header } from "~/components/header";
+import { Header } from "~/components/header/header";
 import { Footer } from "~/components/footer";
+import UserInitializer from "~/components/user-initializer";
+import getUser from "~/lib/getUser";
+import { User } from "~/types/user";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -31,11 +34,12 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
+  const user = (await getUser()) as User;
   return (
     <html lang="en">
       <body
@@ -60,15 +64,18 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex h-full w-full flex-col">
-            <Header />
-            <main className="mx-auto flex h-full max-w-7xl flex-1 flex-col items-center">
-              {children}
-            </main>
-            <Footer />
-            <div id="modal-root" />
-            <Toaster />
-          </div>
+          <UserInitializer user={user}>
+            <div className="flex h-full w-full flex-col">
+              <Header />
+              <div className="h-px w-screen bg-border" />
+              <main className="mx-auto flex h-full w-full max-w-7xl flex-1 flex-col items-center">
+                {children}
+              </main>
+              <Footer />
+              <div id="modal-root" />
+              <Toaster />
+            </div>
+          </UserInitializer>
         </ThemeProvider>
       </body>
     </html>

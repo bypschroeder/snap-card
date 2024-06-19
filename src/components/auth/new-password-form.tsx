@@ -22,10 +22,11 @@ import { Button } from "../ui/button";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 import { newPassword } from "~/actions/new-password";
+import { LoadingButton } from "../loading-button";
 
 export const NewPasswordForm = () => {
-  const searchParams = useSearchParams()
-  const token = searchParams.get("token")
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
 
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -80,9 +81,9 @@ export const NewPasswordForm = () => {
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />
-          <Button disabled={isPending} type="submit" className="w-full">
+          <LoadingButton loading={isPending} type="submit" className="w-full">
             Reset password
-          </Button>
+          </LoadingButton>
         </form>
       </Form>
     </CardWrapper>

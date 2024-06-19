@@ -4,9 +4,9 @@ import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { newVerification } from "~/actions/new-verification";
-import { CardWrapper } from "./auth/card-wrapper";
-import { FormError } from "./form-error";
-import { FormSuccess } from "./form-success";
+import { CardWrapper } from "./card-wrapper";
+import { FormError } from "../form-error";
+import { FormSuccess } from "../form-success";
 
 const LoadingDotsSVG = () => {
   return (

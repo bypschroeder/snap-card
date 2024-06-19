@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useUploadThing } from "~/utils/uploadthing";
+import { useUploadThing } from "~/lib/uploadthing";
 import { toast } from "sonner";
 import { Check } from "lucide-react";
 
@@ -102,7 +102,7 @@ export const SimpleUploadButton = () => {
   });
 
   return (
-    <div className="flex gap-2">
+    <div>
       <label htmlFor="upload-button" className="flex cursor-pointer gap-2">
         <UploadSVG />
         <span>Upload Image</span>

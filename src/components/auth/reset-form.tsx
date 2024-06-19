@@ -21,6 +21,7 @@ import { Button } from "../ui/button";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 import { reset } from "~/actions/reset";
+import { LoadingButton } from "../loading-button";
 
 export const ResetForm = () => {
   const [error, setError] = useState<string | undefined>("");
@@ -75,9 +76,9 @@ export const ResetForm = () => {
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />
-          <Button disabled={isPending} type="submit" className="w-full">
+          <LoadingButton loading={isPending} type="submit" className="w-full">
             Send reset email
-          </Button>
+          </LoadingButton>
         </form>
       </Form>
     </CardWrapper>
