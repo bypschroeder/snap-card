@@ -15,7 +15,7 @@ const DashboardPage = () => {
   const user = useUserStore((state) => state.user);
   const [cards, setCards] = useState<Card[]>([]);
   const [cardsLoading, setCardsLoading] = useState(true);
-  const [cardImages, setCardImages] = useState<string | null>(null);
+  const [cardImages, setCardImages] = useState<string[]>([]);
 
   useEffect(() => {
     if (!user) {
@@ -26,11 +26,13 @@ const DashboardPage = () => {
       try {
         const cards = await getCards(user.id);
         setCards(cards ?? []);
-        const imageIds = cards?.map((card) => card.profileImageId);
+        const imageIds = cards?.map((card) => card.profileImageId) ?? [];
         const images = await Promise.all(
-          imageIds.map((id) => getImageById(id)),
+          imageIds
+            .filter((id): id is number => id !== null) // Type guard to filter out null values
+            .map((id) => getImageById(id)),
         );
-        const imageUrls = images?.map((image) => image?.url);
+        const imageUrls = images?.map((image) => image?.url) as string[];
         setCardImages(imageUrls);
         console.log(imageUrls);
         setCardsLoading(false);
@@ -53,7 +55,7 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className="flex w-full flex-col py-6">
+    <div className="flex w-full flex-1 flex-col py-6">
       <div className="flex flex-col">
         <div className="flex w-full items-center justify-between gap-4 px-6">
           <h1 className="text-3xl font-semibold">Your Cards</h1>
@@ -65,6 +67,13 @@ const DashboardPage = () => {
           </Link>
         </div>
       </div>
+      {cards.length < 1 && (
+        <div className="flex h-full w-full flex-1 items-center justify-center">
+          <p className="text-md text-muted-foreground">
+            You don't have any cards yet
+          </p>
+        </div>
+      )}
       <ul className="flex w-full flex-wrap items-center justify-between gap-4 overflow-auto p-6">
         {cards.map((card, index) => (
           <li key={card.id} className="col-span-1 w-full max-w-sm">
@@ -77,7 +86,7 @@ const DashboardPage = () => {
                     : "No description"
                 }
                 name={`${card.firstName} ${card.lastName}`}
-                imageUrl={cardImages[index]}
+                imageUrl={cardImages[index] ?? ""}
               />
             </Link>
           </li>

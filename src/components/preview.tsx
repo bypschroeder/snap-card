@@ -57,15 +57,15 @@ const Preview = ({ params }: { params: { cardUrl: string } }) => {
             className="h-full w-full object-cover"
             src={imageUrl ?? ""}
           />
-          <AvatarFallback className="font-bold capitalize tracking-tighter"></AvatarFallback>
         </Avatar>
       )}
       <div className="flex flex-col items-center justify-center gap-1">
         <h1 className="text-md font-semibold">
           {currentCard?.firstName} {currentCard?.lastName}
         </h1>
-        {currentCard?.profession?.length > 0 &&
-          currentCard.profession[0].name !== "" && (
+        {currentCard.profession &&
+          currentCard?.profession?.length > 0 &&
+          currentCard.profession[0]!.name !== "" && (
             <span className="text-sm text-muted-foreground">
               {currentCard?.profession?.map((prof) => prof.name).join(", ")}
             </span>
@@ -83,27 +83,28 @@ const Preview = ({ params }: { params: { cardUrl: string } }) => {
           )}
         </div>
       </div>
-      {currentCard.socialMediaLinks?.length > 0 && (
-        <div className="flex w-full flex-wrap justify-center gap-4">
-          {currentCard?.socialMediaLinks?.map((link) => (
-            <SocialIcon
-              key={link.url}
-              url={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ height: "3rem", width: "3rem" }}
-            />
-          ))}
-          {currentCard.websiteUrl && (
-            <SocialIcon
-              url={currentCard.websiteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ height: "3rem", width: "3rem" }}
-            />
-          )}
-        </div>
-      )}
+      {currentCard.socialMediaLinks &&
+        currentCard.socialMediaLinks?.length > 0 && (
+          <div className="flex w-full flex-wrap justify-center gap-4">
+            {currentCard?.socialMediaLinks?.map((link) => (
+              <SocialIcon
+                key={link.url}
+                url={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ height: "3rem", width: "3rem" }}
+              />
+            ))}
+            {currentCard.websiteUrl && (
+              <SocialIcon
+                url={currentCard.websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ height: "3rem", width: "3rem" }}
+              />
+            )}
+          </div>
+        )}
       {currentCard.bio && (
         <Card className="w-full">
           <CardHeader className="p-4 pb-2">
@@ -116,25 +117,27 @@ const Preview = ({ params }: { params: { cardUrl: string } }) => {
           </CardContent>
         </Card>
       )}
-      {currentCard.skills?.length > 0 && currentCard.skills[0].name !== "" && (
-        <Card className="w-full">
-          <CardHeader className="p-4 pb-2">
-            <CardTitle className="text-md font-semibold">My Skills</CardTitle>
-          </CardHeader>
-          <CardContent className="px-4">
-            <div className="grid grid-cols-2 gap-2">
-              {currentCard?.skills?.map((skill) => (
-                <span
-                  key={skill.name}
-                  className="inline-block rounded-md bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-700"
-                >
-                  {skill.name}
-                </span>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
+      {currentCard.skills &&
+        currentCard.skills?.length > 0 &&
+        currentCard.skills[0]!.name !== "" && (
+          <Card className="w-full">
+            <CardHeader className="p-4 pb-2">
+              <CardTitle className="text-md font-semibold">My Skills</CardTitle>
+            </CardHeader>
+            <CardContent className="px-4">
+              <div className="grid grid-cols-2 gap-2">
+                {currentCard?.skills?.map((skill) => (
+                  <span
+                    key={skill.name}
+                    className="inline-block rounded-md bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-700"
+                  >
+                    {skill.name}
+                  </span>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
       {galleryImages.length > 0 && (
         <Card className="w-full">
           <CardHeader className="p-4 pb-2">

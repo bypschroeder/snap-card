@@ -310,11 +310,17 @@ export async function deleteCardImage(cardId: number, imageId: number) {
 
 export const updateCardImage = async (cardId: number, image: string) => {
   const currentCard = await getCardById(cardId);
-  const { id } = await getImageByUrl(image);
+  const imageData = await getImageByUrl(image);
 
   if (!currentCard) {
     return { error: "Card does not exist!" };
   }
+
+  if (!imageData) {
+    return { error: "Image does not exist!" };
+  }
+
+  const { id } = imageData;
 
   await db
     .update(cards)

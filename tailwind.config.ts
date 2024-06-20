@@ -19,9 +19,14 @@ const config = {
       },
     },
     extend: {
+      gridTemplateColumns: {
+        "card-details":
+          "minmax(0, max-content) minmax(400px, 1fr) minmax(240, max-content)",
+        "card-details-md": "minmax(0, max-content) minmax(400px, 1fr)",
+      },
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
-        heading: ["var(--font-serif)", ...fontFamily.serif]
+        heading: ["var(--font-serif)", ...fontFamily.serif],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -83,4 +88,3 @@ const config = {
 } satisfies Config;
 
 export default config;
-

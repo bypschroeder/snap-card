@@ -179,7 +179,7 @@ export const CardSettingsForm = ({
                 <FormLabel>Card URL</FormLabel>
                 <FormControl>
                   <div className="flex items-center">
-                    <span className="text-gray-600 sm:text-xs ">{`/${user?.userName.toLowerCase()}/`}</span>
+                    <span className="text-[8pt] text-gray-600 sm:text-xs">{`/${user?.userName.toLowerCase()}/`}</span>
                     <Input
                       {...field}
                       disabled={isPending}
