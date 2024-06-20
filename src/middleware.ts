@@ -9,17 +9,24 @@ import {
   publicRoutes,
 } from "./routes";
 import { NextAuthRequest } from "node_modules/next-auth/lib";
+import { getAllCards } from "./actions/card";
 
 const { auth } = NextAuth(authConfig);
 
-export default auth((req: NextAuthRequest) => {
+export default auth(async (req: NextAuthRequest) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
+
+  const cards = await getAllCards();
+  const cardUrls = cards?.map(
+    (card) => `/${card.cardUrl.split("/")[3]}/${card.cardUrl.split("/")[4]}`,
+  );
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isApiUploadRoute = nextUrl.pathname.startsWith(apiUploadPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+  const isCardUrl = cardUrls?.includes(nextUrl.pathname);
 
   if (isApiAuthRoute || isApiUploadRoute) {
     return null;
@@ -32,7 +39,7 @@ export default auth((req: NextAuthRequest) => {
     return null;
   }
 
-  if (!isLoggedIn && !isPublicRoute) {
+  if (!isLoggedIn && !isPublicRoute && !isCardUrl) {
     return Response.redirect(new URL("/auth/login", nextUrl));
   }
 

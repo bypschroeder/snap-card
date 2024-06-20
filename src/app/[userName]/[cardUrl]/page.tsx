@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getCardByUrl, getCardImages } from "~/actions/card";
+import { getCardByUrl, getCardImages, getSharedCard } from "~/actions/card";
 import { LoadingSpinnerSVG } from "~/components/loading-spinner";
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { Avatar, AvatarImage } from "~/components/ui/avatar";
 import { getImageById } from "~/server/queries";
 import { Card as CardType } from "~/types/card";
 import { SocialIcon } from "react-social-icons";
@@ -33,7 +33,7 @@ const ShareCardPage = ({
   useEffect(() => {
     const fetchCard = async () => {
       const url = `http://localhost:3000/${params.userName}/${params.cardUrl}`;
-      const card = (await getCardByUrl(url)) as CardType;
+      const card = (await getSharedCard(url, params.userName)) as CardType;
       if (!card) return;
       setCurrentCard(card);
       if (card.profileImageId) {

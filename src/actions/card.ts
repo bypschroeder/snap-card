@@ -10,10 +10,22 @@ import {
 } from "~/schemas";
 import { db } from "~/server/db";
 import { card_images, cards } from "~/server/db/schema";
-import { getUserById } from "~/data/user";
+import { getUserById, getUserByUserName } from "~/data/user";
 import { and, eq } from "drizzle-orm";
 import getUser from "~/lib/getUser";
 import { getImageById, getImageByUrl } from "~/server/queries";
+
+export const getAllCards = async () => {
+  try {
+    const cards = await db.query.cards.findMany({
+      orderBy: (model, { desc }) => desc(model.createdAt),
+    });
+
+    return cards;
+  } catch {
+    return null;
+  }
+};
 
 export const getCards = async (userId: string) => {
   try {
@@ -50,6 +62,27 @@ export const getCardByUrl = async (cardUrl: string) => {
     const card = await db.query.cards.findFirst({
       where: (model, { eq }) =>
         and(eq(model.cardUrl, cardUrl), eq(model.userId, user.id)),
+    });
+
+    return card;
+  } catch {
+    return null;
+  }
+};
+
+export const getSharedCard = async (cardUrl: string, userName: string) => {
+  const user = await getUserByUserName(userName);
+
+  if (!user) {
+    return null;
+  }
+
+  const userId = user?.id;
+
+  try {
+    const card = await db.query.cards.findFirst({
+      where: (model, { eq }) =>
+        and(eq(model.cardUrl, cardUrl), eq(model.userId, userId)),
     });
 
     return card;
