@@ -70,7 +70,7 @@ const CardGalleryPage = ({ params }: { params: { cardUrl: string } }) => {
 
   if (cardIsLoading || !currentCard) {
     return (
-      <div className="flex h-full w-full items-center justify-center">
+      <div className="flex h-full w-full flex-1 items-center justify-center">
         <LoadingSpinnerSVG width={48} height={48} />
       </div>
     );
@@ -85,7 +85,7 @@ const CardGalleryPage = ({ params }: { params: { cardUrl: string } }) => {
         disabled={cardImages.length >= 10}
       />
       {cardImagesLoading ? (
-        <div className="flex h-full w-full items-center justify-center">
+        <div className="flex h-full w-full flex-1 items-center justify-center">
           <LoadingSpinnerSVG width={48} height={48} />
         </div>
       ) : (

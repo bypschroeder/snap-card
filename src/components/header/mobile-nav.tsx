@@ -42,16 +42,6 @@ export const MobileNav = () => {
                   </Button>
                 </Link>
               </SheetTrigger>
-              <SheetTrigger asChild>
-                <Link href="/settings">
-                  <Button
-                    variant="link"
-                    className="w-full text-lg font-semibold"
-                  >
-                    Settings
-                  </Button>
-                </Link>
-              </SheetTrigger>
               <div className="h-px w-screen bg-border" />
               <form action={logout}>
                 <SheetTrigger asChild>

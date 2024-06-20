@@ -23,6 +23,7 @@ import { LoadingSpinnerSVG } from "~/components/loading-spinner";
 import { FormError } from "~/components/form-error";
 import { FormSuccess } from "~/components/form-success";
 import { LoadingButton } from "~/components/loading-button";
+import { useRouter } from "next/navigation";
 
 export const CardSocialsForm = ({
   params,
@@ -30,6 +31,7 @@ export const CardSocialsForm = ({
   params: { cardUrl: string };
 }) => {
   const user = useUserStore((state) => state.user);
+  const router = useRouter();
 
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -142,6 +144,7 @@ export const CardSocialsForm = ({
           setSuccess(data?.success);
           setShowButtons(false);
         },
+        router.refresh(),
       );
     });
   };

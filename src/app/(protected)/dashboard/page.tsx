@@ -8,10 +8,14 @@ import { Button } from "~/components/ui/button";
 import useUserStore from "~/store/useUserStore";
 import { getCards } from "~/actions/card";
 import { Card } from "~/types/card";
+import { LoadingSpinnerSVG } from "~/components/loading-spinner";
+import { getImageById } from "~/server/queries";
 
 const DashboardPage = () => {
   const user = useUserStore((state) => state.user);
   const [cards, setCards] = useState<Card[]>([]);
+  const [cardsLoading, setCardsLoading] = useState(true);
+  const [cardImages, setCardImages] = useState<string | null>(null);
 
   useEffect(() => {
     if (!user) {
@@ -22,6 +26,14 @@ const DashboardPage = () => {
       try {
         const cards = await getCards(user.id);
         setCards(cards ?? []);
+        const imageIds = cards?.map((card) => card.profileImageId);
+        const images = await Promise.all(
+          imageIds.map((id) => getImageById(id)),
+        );
+        const imageUrls = images?.map((image) => image?.url);
+        setCardImages(imageUrls);
+        console.log(imageUrls);
+        setCardsLoading(false);
       } catch (error) {
         if (error instanceof Error) {
           throw new Error(`Failed to fetch cards: ${error.message}`);
@@ -31,6 +43,14 @@ const DashboardPage = () => {
 
     fetchCards();
   }, [user]);
+
+  if (cardsLoading) {
+    return (
+      <div className="flex h-full w-full flex-1 items-center justify-center">
+        <LoadingSpinnerSVG width={48} height={48} />
+      </div>
+    );
+  }
 
   return (
     <div className="flex w-full flex-col py-6">
@@ -46,7 +66,7 @@ const DashboardPage = () => {
         </div>
       </div>
       <ul className="flex w-full flex-wrap items-center justify-between gap-4 overflow-auto p-6">
-        {cards.map((card) => (
+        {cards.map((card, index) => (
           <li key={card.id} className="col-span-1 w-full max-w-sm">
             <Link href={`/dashboard/${card.cardUrl.split("/").pop()}`}>
               <BusinessCard
@@ -56,7 +76,8 @@ const DashboardPage = () => {
                     ? card.profession.map((prof) => prof.name).join(", ")
                     : "No description"
                 }
-                imageUrl={card.cardUrl}
+                name={`${card.firstName} ${card.lastName}`}
+                imageUrl={cardImages[index]}
               />
             </Link>
           </li>

@@ -32,6 +32,7 @@ import { updateCardImage } from "~/actions/card";
 import { FormError } from "~/components/form-error";
 import { FormSuccess } from "~/components/form-success";
 import { LoadingButton } from "~/components/loading-button";
+import { useRouter } from "next/navigation";
 
 export const CardOverviewForm = ({
   params,
@@ -39,6 +40,7 @@ export const CardOverviewForm = ({
   params: { cardUrl: string };
 }) => {
   const user = useUserStore((state) => state.user);
+  const router = useRouter();
 
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -202,6 +204,7 @@ export const CardOverviewForm = ({
         setSuccess(data?.success);
         setShowButtons(false);
       });
+      router.refresh();
     });
   };
 
@@ -226,7 +229,7 @@ export const CardOverviewForm = ({
 
   if (cardIsLoading || !currentCard) {
     return (
-      <div className="flex h-full w-full items-center justify-center">
+      <div className="flex h-full w-full flex-1 items-center justify-center">
         <LoadingSpinnerSVG width={48} height={48} />
       </div>
     );
@@ -298,7 +301,7 @@ export const CardOverviewForm = ({
                   value={field.value ?? ""}
                   disabled={isPending}
                   placeholder="Bio"
-                  className="h-24 resize-none"
+                  className="h-40 resize-none"
                 />
               </FormControl>
               <FormMessage />
@@ -367,7 +370,7 @@ export const CardOverviewForm = ({
                           {...field}
                           value={field.value ?? ""}
                           disabled={isPending}
-                          placeholder="3D Modelling"
+                          placeholder="Photo editing"
                         />
                       </FormControl>
                       {index > 0 && (
@@ -387,7 +390,7 @@ export const CardOverviewForm = ({
                 )}
               />
             ))}
-            {skillsFields.length < 3 && (
+            {skillsFields.length < 6 && (
               <Button
                 type="button"
                 variant={"ghost"}
