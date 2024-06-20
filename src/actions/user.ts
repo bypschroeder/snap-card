@@ -22,6 +22,8 @@ export const updateUser = async (
 
   const { firstName, lastName, userName, email } = validatedFields.data;
 
+  const userNameLower = userName.toLowerCase();
+
   const existingUser = await getUserById(userId);
 
   if (!existingUser) {
@@ -47,7 +49,7 @@ export const updateUser = async (
     .set({
       firstName,
       lastName,
-      userName,
+      userName: userNameLower,
       email,
     })
     .where(eq(users.id, existingUser.id));

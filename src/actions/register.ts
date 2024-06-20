@@ -18,6 +18,9 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
   const { userName, firstName, lastName, email, password } =
     validatedFields.data;
+
+  const userNameLower = userName.toLowerCase();
+
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const existingUserWithSameEmail = await getUserByEmail(email);
@@ -33,7 +36,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   }
 
   await db.insert(users).values({
-    userName,
+    userName: userNameLower,
     firstName,
     lastName,
     email,
