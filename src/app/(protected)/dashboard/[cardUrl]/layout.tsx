@@ -19,7 +19,7 @@ const CardDetailsLayout = ({
     currentPath === path ? "bg-accent text-black" : "";
 
   return (
-    <div className="flex h-full w-full py-6">
+    <div className="flex w-full flex-1 py-6">
       <div className="flex w-full max-w-48 flex-col gap-2 p-4">
         <Link href={basePath}>
           <Button
@@ -59,7 +59,7 @@ const CardDetailsLayout = ({
         </Link>
       </div>
       <div className="flex h-full flex-1 flex-col gap-4 p-4">{children}</div>
-      <div className="flex h-full w-full max-w-sm flex-col gap-2 bg-gray-100 p-4">
+      <div className="flex w-full max-w-sm flex-1 flex-col gap-2 bg-gray-100 p-4">
         <h1>Preview</h1>
       </div>
     </div>

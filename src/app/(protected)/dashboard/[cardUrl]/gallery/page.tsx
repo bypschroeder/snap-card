@@ -81,6 +81,7 @@ const CardGalleryPage = ({ params }: { params: { cardUrl: string } }) => {
       <h1 className="text-xl font-medium sm:text-2xl">Gallery</h1>
       <FileUploaderForm
         cardId={currentCard.id}
+        uploadedImages={cardImages.length}
         disabled={cardImages.length >= 10}
       />
       {cardImagesLoading ? (

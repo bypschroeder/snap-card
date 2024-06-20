@@ -27,7 +27,7 @@ const ProfilePage = () => {
   const handleDeleteUser = async () => {
     await deleteUser(user!.id);
     await logout();
-    router.refresh;
+    router.refresh();
   };
   return (
     <div className="flex h-full w-full flex-col gap-6 p-6">

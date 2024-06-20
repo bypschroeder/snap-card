@@ -41,6 +41,7 @@ export const Header = async () => {
           <MobileNav />
         </div>
       </nav>
+      <div className="h-px w-screen bg-border" />
     </header>
   );
 };

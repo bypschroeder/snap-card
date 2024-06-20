@@ -15,7 +15,6 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { Button } from "../ui/button";
 import { FileUploader } from "../file-uploader";
 import { ImageSchema } from "~/schemas";
 import { addImageToCard } from "~/actions/card";
@@ -28,10 +27,12 @@ import { LoadingButton } from "../loading-button";
 export function FileUploaderForm({
   cardId,
   disabled,
-}: {
+  uploadedImages,
+}: Readonly<{
   cardId: number;
   disabled: boolean;
-}) {
+  uploadedImages: number;
+}>) {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
@@ -151,7 +152,7 @@ export function FileUploaderForm({
                   <FileUploader
                     value={field.value}
                     onValueChange={field.onChange}
-                    maxFiles={10}
+                    maxFiles={10 - uploadedImages}
                     maxSize={1024 * 1024 * 4}
                     progresses={progresses}
                     disabled={isUploading || disabled}

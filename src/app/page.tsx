@@ -5,7 +5,7 @@ import { Button } from "~/components/ui/button";
 
 export default function HomePage() {
   return (
-    <div className="-mt-8 flex h-full flex-col items-center justify-center space-y-6 text-center">
+    <div className="-mt-8 flex flex-1 flex-col items-center justify-center space-y-6 text-center">
       <h1 className="font-heading text-6xl font-semibold drop-shadow-md ">
         SnapCard
       </h1>
