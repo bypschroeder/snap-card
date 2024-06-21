@@ -8,7 +8,7 @@ type Input = Parameters<typeof useUploadThing>;
 
 interface UploadButtonProps {
   children: React.ReactNode;
-  onUploadComplete: (res: any) => void; // Function to handle upload completion
+  onUploadComplete: (res: any) => void;
 }
 
 const useUploadThingInputProps = (
@@ -22,8 +22,6 @@ const useUploadThingInputProps = (
 
     const selectedFiles = Array.from(e.target.files);
     const result = await $ut.startUpload(selectedFiles);
-
-    console.log("uploaded files", result);
   };
 
   return {
@@ -68,12 +66,10 @@ export const UploadButton = ({
             <span className="text-lg">Upload complete!</span>
           </div>,
         );
-        console.log(res);
 
-        // Call the provided onUploadComplete function
         onUploadComplete(res);
 
-        router.refresh(); // Refresh the router after upload
+        router.refresh();
       },
     },
   );

@@ -192,7 +192,6 @@ export const CardOverviewForm = ({
   const onSubmit = (values: z.infer<typeof UpdateCardOverviewSchema>) => {
     setError("");
     setSuccess("");
-    console.log(values);
 
     if (!user) {
       throw new Error("User is undefined");

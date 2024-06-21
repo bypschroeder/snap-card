@@ -1,4 +1,3 @@
-// import "server-only";
 "use server";
 import { db } from "./db";
 import getUser from "~/lib/getUser";

@@ -33,9 +33,7 @@ const ShareCardPage = ({
   useEffect(() => {
     const fetchCard = async () => {
       const url = `http://localhost:3000/${params.userName}/${params.cardUrl}`;
-      console.log(url);
       const card = (await getSharedCard(url, params.userName)) as CardType;
-      console.log(card);
       if (!card) return;
       setCurrentCard(card);
       if (card.profileImageId) {

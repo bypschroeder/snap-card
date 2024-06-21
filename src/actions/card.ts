@@ -72,7 +72,6 @@ export const getCardByUrl = async (cardUrl: string) => {
 
 export const getSharedCard = async (cardUrl: string, userName: string) => {
   const user = await getUserByUserName(userName);
-  console.log(user);
 
   if (!user) {
     return null;

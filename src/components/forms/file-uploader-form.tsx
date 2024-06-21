@@ -54,7 +54,6 @@ export function FileUploaderForm({
     const defaultValues = form.formState.defaultValues as z.infer<
       typeof ImageSchema
     >;
-    // Function to recursively compare objects
     const deepEqual = (obj1: any, obj2: any): boolean => {
       if (obj1 === obj2) return true;
 
@@ -81,7 +80,6 @@ export function FileUploaderForm({
       return true;
     };
 
-    // Check if any field has changed
     const isChanged = !deepEqual(watchFields, defaultValues);
 
     setShowButtons(isChanged);

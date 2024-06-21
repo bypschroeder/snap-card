@@ -29,12 +29,11 @@ const DashboardPage = () => {
         const imageIds = cards?.map((card) => card.profileImageId) ?? [];
         const images = await Promise.all(
           imageIds
-            .filter((id): id is number => id !== null) // Type guard to filter out null values
+            .filter((id): id is number => id !== null) 
             .map((id) => getImageById(id)),
         );
         const imageUrls = images?.map((image) => image?.url) as string[];
         setCardImages(imageUrls);
-        console.log(imageUrls);
         setCardsLoading(false);
       } catch (error) {
         if (error instanceof Error) {
